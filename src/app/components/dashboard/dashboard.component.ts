@@ -10,6 +10,11 @@ export class DashboardComponent implements OnInit {
 
   urlImagen = 'https://previews.123rf.com/images/jemastock/jemastock1702/jemastock170211512/72744479-ilustraci%C3%B3n-de-vector-de-sol-tiempo-s%C3%ADmbolo-del-clima.jpg';
    ciudad="";
+   query = false;
+   temperatura = 0;
+   clima = "";
+   humedad = 0;
+   loading=false;
 
   constructor(private _climaService: ClimaService) { }
 
@@ -19,11 +24,15 @@ export class DashboardComponent implements OnInit {
 
   obtenerClima(){
 
-    console.log(this.ciudad)
+  this.query = false;
+
+  this.loading =true;
 
     this._climaService.getClima(this.ciudad).subscribe(data => {
-
-      console.log(data)
+     this.loading = false
+     this.temperatura = data.main.temp - 273
+     this.humedad = data.main.humidity
+     this.clima = data.weather[0].main
     })
   }
 }
